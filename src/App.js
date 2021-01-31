@@ -1,38 +1,37 @@
-import { useEffect, useState } from 'react';
-import './App.css';
-import Card from './component/Card';
-import Navbar from './component/Navbar';
+import { useEffect, useState } from "react";
+import "./App.css";
+import Card from "./component/Card";
+import Navbar from "./component/Navbar";
+import Guardian from "guardian-js";
 
+const guardian = new Guardian("00ad7cf7-79de-494d-817a-9b425a0c5582", false);
 
 function App() {
-
   const [author, setAuthor] = useState({});
-  
-  // useEffect? 
+
+  // useEffect?
   useEffect(() => {
-    fetch("http://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=5c94f9ba3c2445d4b181e5776a3c7df6")
-    .then(res=> res.json())
-    .then((news)=>{
-      // console.log(news.articles, news);
-      setAuthor(news.articles.map((x)=> setAuthor(x.author)));
-      // console.log(author);
-    })
-  })
-  
+    guardian.editions
+      .search("us")
+      .then((x) => x)
+      .then((x) => console.log(x))
+      .catch((err) => console.log(err));
+  });
+
   return (
     <div className="container-fluid">
-        <Navbar></Navbar>
-        <div className="row">
-          <div className="col-md-8">
-            <div className="row">
-                <Card title={author}></Card>
-                {/* <Card></Card>
+      <Navbar></Navbar>
+      <div className="row">
+        <div className="col-md-8">
+          <div className="row">
+            <Card title={author}></Card>
+            {/* <Card></Card>
                 <Card></Card>
                 <Card></Card> */}
-            </div>
           </div>
-          <div className="col-md-4"></div>
         </div>
+        <div className="col-md-4"></div>
+      </div>
     </div>
   );
 }
